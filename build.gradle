@@ -6,6 +6,8 @@ plugins {
 group = 'com.github.sep-es-br'
 version = '1.0.0'
 
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 repositories {
     mavenCentral()
@@ -14,13 +16,14 @@ repositories {
 
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+    api platform('org.springframework.boot:spring-boot-dependencies:2.2.12.RELEASE')
+    implementation 'org.springframework.boot:spring-boot-starter'
 
 
-        implementation 'com.github.sep-es-br:pmo-core-identity-parser:1.0.4'
+    implementation 'com.github.sep-es-br:pmo-core-identity-parser:1.0.5'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
