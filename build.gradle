@@ -20,7 +20,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
 
 
-    implementation 'com.github.sep-es-br:pmo-core-identity-parser:1.0.5'
+    implementation 'com.github.sep-es-br:pmo-core-identity-parser:75678c1'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

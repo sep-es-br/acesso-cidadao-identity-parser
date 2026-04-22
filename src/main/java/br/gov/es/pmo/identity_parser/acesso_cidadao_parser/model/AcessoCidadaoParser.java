@@ -5,7 +5,6 @@
 package br.gov.es.pmo.identity_parser.acesso_cidadao_parser.model;
 
 import br.gov.es.pmo.identity_parser.pmo_base.model.IIdentityParser;
-import br.gov.es.pmo.identity_parser.pmo_base.service.ClientCredentialService;
 import br.gov.es.pmo.identity_parser.pmo_base.utils.ApiClient;
 import java.util.Optional;
 import org.json.JSONObject;
@@ -26,31 +25,21 @@ public class AcessoCidadaoParser implements IIdentityParser<String>{
     private final String EMAIL_COORPORATIVO = "corporativo";
     
     private final ApiClient apiClient = new ApiClient("https://sistemas.es.gov.br/prodest/acessocidadao.webapi");
-    
-    private final ClientCredentialService clientCredentialService;
-    
-    public AcessoCidadaoParser(
-            final ClientCredentialService clientCredentialService
-    ){
-        this.clientCredentialService = clientCredentialService;
-    }
-    
+        
     @Override
-    public String getId(OAuth2User user, String token) {
+    public String getId(OAuth2User user, String accessToken, String clientToken) {
         return (String) Optional.ofNullable(user.getAttribute(SUB_NOVO)).orElse(user.getAttribute(SUB));
     }
 
     @Override
-    public String getNome(OAuth2User user, String token) {
+    public String getNome(OAuth2User user, String accessToken, String clientToken) {
         return (String) user.getAttribute(APELIDO);
     }
 
     @Override
-    public String getEmail(OAuth2User user, String token) {
-        
-        String clientToken = clientCredentialService.getClientToken("idsvr");
-        
-        JSONObject resp = apiClient.doGetRequest("/api/cidadao/" + getId(user, token) + "/email", clientToken)
+    public String getEmail(OAuth2User user, String accessToken, String clientToken) {
+                
+        JSONObject resp = apiClient.doGetRequest("/api/cidadao/" + getId(user, accessToken, clientToken) + "/email", clientToken)
                             .block();
         
         
