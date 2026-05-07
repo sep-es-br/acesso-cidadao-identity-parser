@@ -38,15 +38,18 @@ public class AcessoCidadaoParser implements IIdentityParser<String>{
 
     @Override
     public String getEmail(OAuth2User user, String accessToken, String clientToken) {
-                
-        JSONObject resp = apiClient.doGetRequest("/api/cidadao/" + getId(user, accessToken, clientToken) + "/email", clientToken)
-                            .block();
-        
-        if(resp.has(EMAIL_COORPORATIVO))
-            return resp.getString(EMAIL_COORPORATIVO);
-        
-        return resp.getString(EMAIL);
-        
+
+        JSONObject resp = apiClient
+                .doGetRequest("/api/cidadao/" + getId(user, accessToken, clientToken) + "/email", clientToken)
+                .block();
+
+        String corporativo = resp.optString(EMAIL_COORPORATIVO, null);
+
+        if (corporativo != null && !corporativo.isEmpty()) {
+            return corporativo;
+        }
+
+        return resp.optString(EMAIL, null);
     }
     
     
