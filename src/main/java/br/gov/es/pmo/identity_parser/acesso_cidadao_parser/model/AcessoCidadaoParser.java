@@ -42,8 +42,11 @@ public class AcessoCidadaoParser implements IIdentityParser<String>{
         JSONObject resp = apiClient.doGetRequest("/api/cidadao/" + getId(user, accessToken, clientToken) + "/email", clientToken)
                             .block();
         
+        if(resp.has(EMAIL_COORPORATIVO))
+            return resp.getString(EMAIL_COORPORATIVO);
         
-        return (String) Optional.ofNullable(resp).map((_resp) -> Optional.ofNullable(_resp.get(EMAIL)).orElse(_resp.get(EMAIL_COORPORATIVO))).orElse(null);
+        return resp.getString(EMAIL);
+        
     }
     
     
